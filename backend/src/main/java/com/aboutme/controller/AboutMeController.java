@@ -1,8 +1,11 @@
 package com.aboutme.controller;
 
 import com.aboutme.model.AboutMe;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
-import java.util.Arrays;
+import jakarta.annotation.PostConstruct;
+import java.io.IOException;
 
 /**
  * REST API Controller for About Me endpoints
@@ -13,6 +16,24 @@ import java.util.Arrays;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AboutMeController {
 
+    private AboutMe aboutMeData;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * Load about me data from JSON file on startup
+     */
+    @PostConstruct
+    public void init() {
+        try {
+            ClassPathResource resource = new ClassPathResource("about-me-data.json");
+            aboutMeData = objectMapper.readValue(resource.getInputStream(), AboutMe.class);
+            System.out.println("✅ About Me data loaded from JSON file successfully!");
+        } catch (IOException e) {
+            System.err.println("❌ Error loading about-me-data.json: " + e.getMessage());
+            aboutMeData = new AboutMe();
+        }
+    }
+
     /**
      * GET /api/about
      * Returns personal information as JSON
@@ -21,18 +42,7 @@ public class AboutMeController {
      */
     @GetMapping("/about")
     public AboutMe getAboutMe() {
-        AboutMe aboutMe = new AboutMe(
-            "Shamim Hasan",
-            25,
-            "Full Stack Developer",
-            Arrays.asList("Java", "React", "JavaScript", "PHP", "Spring Boot", "Node.js"),
-            "Gaming & Coding",
-            "Bangladesh",
-            "Passionate software developer with expertise in building modern web applications. " +
-            "I love creating beautiful and functional solutions that make a difference."
-        );
-        
-        return aboutMe;
+        return aboutMeData;
     }
 
     /**

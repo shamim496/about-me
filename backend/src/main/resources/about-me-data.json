@@ -1,0 +1,9 @@
+{
+  "name": "Shamim Hasan",
+  "age": 25,
+  "profession": "Full Stack Developer",
+  "skills": ["Java", "React", "JavaScript", "PHP", "Spring Boot", "Node.js"],
+  "hobby": "Gaming & Coding",
+  "country": "Bangladesh",
+  "bio": "Passionate software developer with expertise in building modern web applications. I love creating beautiful and functional solutions that make a difference."
+}
